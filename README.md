@@ -1,2 +1,2 @@
 # goSnake
-Snake Game
+### Terminal-based Snake game
