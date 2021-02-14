@@ -3,5 +3,5 @@ package main
 import "goSnake/snake"
 
 func main() {
-	snake.NewGame()
+	snake.NewGame().Start()
 }

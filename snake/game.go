@@ -15,6 +15,7 @@ func initialPlane() *plane {
 func NewGame() *Game {
 	return &Game{plane: initialPlane()}
 }
+
 func (game *Game) Start() {
 	if err := termbox.Init(); err != nil {
 		panic(err)
