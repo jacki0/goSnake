@@ -3,6 +3,7 @@ package snake
 type plane struct {
     height int
     width  int
+    snake *snake
 }
 
 func newPlane(h, w int) *plane {

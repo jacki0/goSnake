@@ -1,6 +1,8 @@
 package snake
 
-import "github.com/nsf/termbox-go"
+import (
+	"github.com/nsf/termbox-go"
+)
 
 type keyboardEventType int
 
@@ -13,6 +15,21 @@ const (
 type keyboardEvent struct {
 	eventType keyboardEventType
 	key 	  termbox.Key
+}
+
+func keyToDirection(k termbox.Key) direction {
+	switch k {
+	case termbox.KeyArrowLeft:
+		return LEFT
+	case termbox.KeyArrowRight:
+		return RIGHT
+	case termbox.KeyArrowUp:
+		return UP
+	case termbox.KeyArrowDown:
+		return DOWN
+	default:
+		return 0
+	}
 }
 
 func listenToKeyboard(evChan chan keyboardEvent) {
