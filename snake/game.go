@@ -22,4 +22,7 @@ func (game *Game) Start() {
 	}
 	defer termbox.Close()
 	go listenToKeyboard(keyboardEventChan)
+	if err := game.render(); err != nil {
+		panic(err)
+	}
 }
