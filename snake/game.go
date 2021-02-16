@@ -21,8 +21,16 @@ type (
 	}
 )
 
+func initialSnake() *snake {
+	return newSnake(RIGHT, []coord{
+		{x: 1, y: 1},
+		{x: 1, y: 2},
+		{x: 1, y: 3},
+		{x: 1, y: 4},
+	})
+}
 func initialPlane() *plane {
-	return newPlane(20, 30)
+	return newPlane(initialSnake(), pointsChan,20, 30)
 }
 
 func NewGame() *Game {

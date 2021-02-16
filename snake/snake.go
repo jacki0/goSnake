@@ -18,6 +18,14 @@ type (
 	}
 )
 
+func newSnake(d direction, b []coord) *snake {
+	return &snake{
+		length: len(b),
+		body: b,
+		direction: d,
+	}
+}
+
 func (s *snake) changeDirection(d direction) {
 	opposites := map[direction]direction{
 		RIGHT: LEFT,
