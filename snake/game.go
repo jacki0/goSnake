@@ -29,12 +29,13 @@ func initialSnake() *snake {
 		{x: 1, y: 4},
 	})
 }
+
 func initialPlane() *plane {
 	return newPlane(initialSnake(), pointsChan,20, 30)
 }
 
 func NewGame() *Game {
-	return &Game{plane: initialPlane()}
+	return &Game{plane: initialPlane(), score: 0}
 }
 
 func (game *Game) addPoints(p int) {
@@ -52,6 +53,7 @@ func (game *Game) moveInterval() time.Duration {
 
 func (game *Game) retry() {
 	game.plane = initialPlane()
+	game.score = 0
 	game.isOver = false
 }
 
@@ -67,6 +69,8 @@ func (game *Game) Start() {
 mainloop:
 	for {
 		select {
+		case p := <- pointsChan:
+			game.addPoints(p)
 		case ev := <- keyboardEventChan:
 			switch ev.eventType {
 			case MOVE:
