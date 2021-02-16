@@ -5,7 +5,10 @@ import (
 	"time"
 )
 
-var keyboardEventChan = make(chan keyboardEvent)
+var (
+	keyboardEventChan = make(chan keyboardEvent)
+	pointsChan = make(chan int)
+)
 
 type (
 	coord struct {
@@ -24,6 +27,14 @@ func initialPlane() *plane {
 
 func NewGame() *Game {
 	return &Game{plane: initialPlane()}
+}
+
+func (game *Game) addPoints(p int) {
+	game.score += p
+}
+
+func (game *Game) end() {
+	game.isOver = true
 }
 
 func (game *Game) moveInterval() time.Duration {
@@ -45,26 +56,31 @@ func (game *Game) Start() {
 	if err := game.render(); err != nil {
 		panic(err)
 	}
-	mainloop:
-		for {
-			select {
-			case ev := <- keyboardEventChan:
-				switch ev.eventType {
-				case MOVE:
-					d := keyToDirection(ev.key)
-					game.plane.snake.changeDirection(d)
-				case RETRY:
-					game.retry()
-				case END:
-					break mainloop
+mainloop:
+	for {
+		select {
+		case ev := <- keyboardEventChan:
+			switch ev.eventType {
+			case MOVE:
+				d := keyToDirection(ev.key)
+				game.plane.snake.changeDirection(d)
+			case RETRY:
+				game.retry()
+			case END:
+				break mainloop
+			}
+		case point := <- pointsChan:
+			game.addPoints(point)
+		default:
+			if !game.isOver {
+				if err := game.plane.moveSnake(); err != nil {
+					game.end()
 				}
-			default:
-				if !game.isOver {
-					if err := game.render(); err != nil {
-						panic(err)
-					}
+			}
+			if err := game.render(); err != nil {
+				panic(err)
 				}
-				time.Sleep(game.moveInterval())
-				}
+			time.Sleep(game.moveInterval())
 		}
+	}
 }
