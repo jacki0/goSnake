@@ -1,10 +1,15 @@
 package snake
 
-import "github.com/nsf/termbox-go"
+import (
+	"fmt"
+	"github.com/mattn/go-runewidth"
+	"github.com/nsf/termbox-go"
+)
 
 const (
 	defaultColor = termbox.ColorDefault
 	bgColor = termbox.ColorDefault
+	snakeColor = termbox.ColorGreen
 )
 
 func (game *Game) render() error {
@@ -16,12 +21,39 @@ func (game *Game) render() error {
 		w, h = termbox.Size()
 		midY = h / 2
 		left = (w - game.plane.width) / 2
+		right = (w + game.plane.width) / 2
 		top = midY - (game.plane.height / 2)
 		bottom = midY + (game.plane.height / 2) + 1
 	)
+	renderTitle(left, top)
 	renderPlane(game.plane, top, bottom, left)
+	renderSnake(left, bottom, game.plane.snake)
+	renderFood(left, bottom, game.plane.food)
+	renderScore(left, bottom, game.score)
+	renderQuitMsg(right, bottom)
 	return termbox.Flush()
 }
+
+func renderSnake(left, bottom int, s *snake)  {
+	for _, b := range s.body {
+		termbox.SetCell(left + b.x, bottom - b.y, ' ', snakeColor, snakeColor)
+	}
+}
+
+func renderFood(left, bottom int, f *food) {
+	termbox.SetCell(left + f.x, bottom - f.y, f.emoji, defaultColor, bgColor)
+}
+
+func renderScore(left, bottom, s int) {
+	score := fmt.Sprintf("Score %v", s)
+	termboxPrint(left, bottom + 1, score)
+}
+
+func renderQuitMsg(right, bottom int) {
+	msg := "Press ESC to quit"
+	termboxPrint(right - len(msg), bottom + 1, msg)
+}
+
 func fill (x, y, w, h int, cell termbox.Cell){
 	for ly := 0; ly < h; ly++ {
 		for lx := 0; lx < w; lx++ {
@@ -57,4 +89,15 @@ func renderPlane(p *plane, top, bottom, left int) {
 	fill(left, top, p.width, 1, termbox.Cell{Ch: '\u2013'})
 	fill(left, bottom, p.width, 1, termbox.Cell{Ch: '\u2013'})
 	 */
+}
+
+func renderTitle(left, top int) {
+	termboxPrint(left, top - 1, "Snake Game")
+}
+
+func termboxPrint(x, y int, msg string)  {
+	for _, c := range msg {
+		termbox.SetCell(x, y, c, defaultColor, defaultColor)
+		x += runewidth.RuneWidth(c)
+	}
 }
