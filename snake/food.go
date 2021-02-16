@@ -39,14 +39,14 @@ func randomFoodEmoji() (v1 rune, v2 int) {
 		'🍇': 1,
 		'🍏': 1,
 		'🍌': 1,
-		'🍫': 10,
-		'🍭': 10,
-		'🍕': 20,
-		'🍩': 10,
-		'🍗': 20,
-		'🍖': 20,
-		'🍬': 10,
-		'🍤': 20,
+		'🍫': 1,
+		'🍭': 1,
+		'🍕': 1,
+		'🍩': 1,
+		'🍗': 1,
+		'🍖': 1,
+		'🍬': 1,
+		'🍤': 1,
 		'🍪': 10,
 	}
 	for {
@@ -56,6 +56,7 @@ func randomFoodEmoji() (v1 rune, v2 int) {
 		return
 	}
 }
+
 func hasUnicodeSupport() bool {
 	return strings.Contains(os.Getenv("LANG"), "UTF-8")
 }

@@ -52,7 +52,7 @@ func (s *snake) isOnPosition(c coord) bool {
 }
 
 func (s *snake) die() error {
-	return errors.New("Died")
+	return errors.New("died")
 }
 
 func (s *snake) move() error {
