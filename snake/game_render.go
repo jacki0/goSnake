@@ -72,11 +72,8 @@ func renderPlane(p *plane, top, bottom, left int) {
 	termbox.SetCell(left - 1, bottom, '\u2514', defaultColor, bgColor)
 	termbox.SetCell(left + p.width, top, '\u2510', defaultColor, bgColor)
 	termbox.SetCell(left + p.width, bottom, '\u2518', defaultColor, bgColor)
-	/*fill(left, top, p.width, 1, termbox.Cell{Ch: '─'})
+	fill(left, top, p.width, 1, termbox.Cell{Ch: '─'})
 	fill(left, bottom, p.width, 1, termbox.Cell{Ch: '─'})
-	*/
-	fill(left, top, p.width, 1, termbox.Cell{Ch: '\u2013'})
-	fill(left, bottom, p.width, 1, termbox.Cell{Ch: '\u2013'})
 }
 
 func renderTitle(left, top int) {
