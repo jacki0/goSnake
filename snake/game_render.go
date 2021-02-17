@@ -62,14 +62,6 @@ func fill (x, y, w, h int, cell termbox.Cell){
 	}
 }
 
-/* need test:
-func fill (x, y, w, h int, cell termbox.Cell){
-	for ; h >= 0; h-- {
-		for ; w >= 0; w-- {
-			termbox.SetCell(x + w, y + h, cell.Ch, cell.Fg, cell.Bg)
-		}
-	}
-}*/
 
 func renderPlane(p *plane, top, bottom, left int) {
 	for i := top; i < bottom; i++ {
